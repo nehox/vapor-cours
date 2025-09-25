@@ -1,0 +1,46 @@
+# docker-compose.dev.yml - Configuration Docker Compose pour le développement
+# Utilisation : docker-compose -f docker-compose.dev.yml up
+
+services:
+  vapor-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      # Monte le code source local dans le conteneur
+      # Permet le hot reload - les changements sont reflétés immédiatement
+      - .:/app
+      # Exclut le dossier .build pour éviter les conflits
+      - /app/.build
+    working_dir: /app
+    environment:
+      - LOG_LEVEL=debug
+      - ENVIRONMENT=development
+    # Redémarre automatiquement en cas d'erreur
+    restart: unless-stopped
+    # Commande personnalisée avec surveillance des changements
+    command: >
+      bash -c "
+        echo '🔥 Démarrage du serveur de développement avec hot reload...' &&
+        echo '📁 Répertoire de travail : /app' &&
+        echo '🌐 Serveur disponible sur : http://localhost:8080' &&
+        echo '📝 Modifiez vos fichiers Swift - le serveur redémarrera automatiquement !' &&
+        swift run
+      "
+
+  # Service optionnel pour la base de données (si besoin d'une vraie DB plus tard)
+  # db:
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_DB: vapor_tasks
+  #     POSTGRES_USER: vapor
+  #     POSTGRES_PASSWORD: password
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:

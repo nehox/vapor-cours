@@ -1,0 +1,21 @@
+# Dockerfile.dev - Swift 5.9 avec versions anciennes
+FROM swift:5.9-jammy
+
+# Installation des dépendances système
+RUN apt-get update && apt-get install -y libsqlite3-dev && rm -rf /var/lib/apt/lists/*
+
+# Répertoire de travail
+WORKDIR /app
+
+# Utiliser le Package.swift de développement sans visionOS
+COPY Package.swift.dev Package.swift
+COPY Package.resolved* ./
+
+# Résoudre les dépendances  
+RUN swift package resolve
+
+# Exposer le port
+EXPOSE 8080
+
+# Démarrage simple et direct
+CMD ["swift", "run", "App", "--hostname", "0.0.0.0", "--port", "8080"]

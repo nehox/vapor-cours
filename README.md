@@ -16,6 +16,56 @@ Bienvenue dans ce cours pratique sur le développement d'une API REST avec Swift
 
 ---
 
+## 🚀 Démarrage ultra-rapide (HOT RELOAD)
+
+### 🔥 Développement avec rechargement automatique (Recommandé)
+
+Pour un développement efficace avec rechargement automatique à chaque modification :
+
+```bash
+# 1. Assurez-vous que Docker Desktop est démarré
+# 2. Lancez le serveur de développement :
+dev.bat
+
+# L'API sera disponible sur http://localhost:8080
+# ✨ Modifiez vos fichiers .swift - le serveur redémarre automatiquement !
+```
+
+### 🛑 Pour arrêter le serveur
+
+```bash
+# Appuyez sur Ctrl+C puis lancez :
+stop.bat
+```
+
+### ⚡ Commandes disponibles
+
+| Commande | Description |
+|----------|-------------|
+| `dev.bat` | 🔥 Serveur de développement avec hot reload |
+| `stop.bat` | 🛑 Arrête tous les services de développement |
+| `build.bat` | 🏗️ Construction pour la production |
+| `make dev` | 🔥 Alternative avec Makefile (si make installé) |
+| `make help` | 📋 Liste toutes les commandes disponibles |
+
+### 💡 Pourquoi utiliser le hot reload ?
+
+**❌ Ancien workflow (lent)** :
+1. Modifier le code Swift
+2. `docker build -f Dockerfile.simple -t vapor-task-api .` (5-10 minutes)
+3. `docker run -p 8080:8080 vapor-task-api`
+4. Tester
+5. Répéter...
+
+**✅ Nouveau workflow (instantané)** :
+1. Lancer `dev.bat` une seule fois
+2. Modifier le code Swift
+3. Sauvegarder - le serveur redémarre automatiquement en quelques secondes
+4. Tester immédiatement
+5. Répéter rapidement !
+
+---
+
 ## � Dépannage rapide
 
 ### Problème : Swift n'est pas installé sur Windows

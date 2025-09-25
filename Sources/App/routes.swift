@@ -39,6 +39,10 @@ func routes(_ app: Application) throws {
         return "👋 Salut depuis Vapor ! L'API fonctionne parfaitement."
     }
     
+    app.get("toto2") { req async -> String in
+        return "👋 Salut depuis toto ! L'API fonctionne parfaitement."
+    }
+    
     /**
      * Route de salutation personnalisée
      * 

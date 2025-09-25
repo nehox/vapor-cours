@@ -1,0 +1,43 @@
+// swift-tools-version:5.9
+import PackageDescription
+
+/**
+ * Package.swift.dev - Configuration avec versions très anciennes (2022)
+ * 
+ * Utilise des versions de début 2022 qui sont garanties sans visionOS
+ */
+
+let package = Package(
+    name: "TaskAPI",
+    platforms: [
+       .macOS(.v10_15),
+       .iOS(.v13),
+       .watchOS(.v6),
+       .tvOS(.v13)
+    ],
+    dependencies: [
+        // Vapor 4.60.0 - janvier 2022, garanti sans visionOS
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.60.0"),
+        // Fluent 4.4.0 - 2022
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.4.0"),
+        // Fluent SQLite 4.2.0 - 2022
+        .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.2.0"),
+    ],
+    targets: [
+        .executableTarget(
+            name: "App",
+            dependencies: [
+                .product(name: "Fluent", package: "fluent"),
+                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+                .product(name: "Vapor", package: "vapor")
+            ]
+        ),
+        .testTarget(
+            name: "AppTests", 
+            dependencies: [
+                .target(name: "App"),
+                .product(name: "XCTVapor", package: "vapor"),
+            ]
+        )
+    ]
+)

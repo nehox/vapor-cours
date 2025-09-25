@@ -23,8 +23,12 @@ do {
     // Configure l'application (base de données, routes, middlewares, etc.)
     try await configure(app)
     
+    // Configuration du serveur pour Docker
+    // Écoute sur toutes les interfaces réseau (0.0.0.0) pour être accessible depuis l'hôte
+    app.http.server.configuration.hostname = "0.0.0.0"
+    app.http.server.configuration.port = 8080
+    
     // Démarre le serveur HTTP
-    // Par défaut, le serveur écoute sur localhost:8080
     try await app.execute()
 } catch {
     app.logger.report(error: error)
