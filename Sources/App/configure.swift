@@ -34,6 +34,9 @@ public func configure(_ app: Application) async throws {
      */
     app.migrations.add(CreateTask())
     
+    // Exécute les migrations automatiquement
+    try await app.autoMigrate()
+    
     // MARK: - Configuration des middlewares
     
     /**

@@ -16,7 +16,7 @@ import Vapor
  * 
  * Content permet de sérialiser/désérialiser automatiquement vers/depuis JSON
  */
-final class Task: Model, Content {
+final class Task: Model, Content, @unchecked Sendable {
     
     // MARK: - Propriétés de base
     

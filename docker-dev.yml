@@ -1,0 +1,54 @@
+# Docker Compose pour le développement Swift/Vapor
+version: '3.8'
+
+services:
+  # ===========================
+  # 🛠️ Environnement de développement Swift
+  # ===========================
+  swift-dev:
+    image: swift:5.9-jammy
+    container_name: vapor-dev
+    working_dir: /app
+    volumes:
+      # Monter le code source
+      - .:/app
+      # Cache pour les dépendances Swift
+      - swift-cache:/app/.build
+    ports:
+      - "8080:8080"
+    environment:
+      - LOG_LEVEL=debug
+    # Commande pour installer les dépendances et démarrer en mode watch
+    command: >
+      bash -c "
+      echo '🚀 Démarrage de l environnement de développement Swift/Vapor' &&
+      echo '📦 Installation des dépendances...' &&
+      swift package resolve &&
+      echo '🔨 Compilation...' &&
+      swift build &&
+      echo '✅ Démarrage du serveur sur http://localhost:8080' &&
+      swift run App serve --hostname 0.0.0.0 --port 8080
+      "
+    stdin_open: true
+    tty: true
+
+  # ===========================
+  # 🗄️ Base de données SQLite (pour visualisation)
+  # ===========================
+  sqlite-viewer:
+    image: coleifer/sqlite-web
+    container_name: vapor-sqlite-viewer
+    ports:
+      - "8081:8080"
+    volumes:
+      - .:/data
+    command: ["sqlite_web", "/data/db.sqlite", "--host", "0.0.0.0", "--port", "8080"]
+    depends_on:
+      - swift-dev
+
+# ===========================
+# 💾 Volumes pour la persistance
+# ===========================
+volumes:
+  swift-cache:
+    driver: local

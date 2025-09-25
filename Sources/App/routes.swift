@@ -24,21 +24,8 @@ func routes(_ app: Application) throws {
      * Retourne un message de bienvenue simple
      * Utile pour vérifier que le serveur fonctionne
      */
-    app.get { req async in
-        return [
-            "message": "🎯 Bienvenue sur l'API de gestion des tâches !",
-            "version": "1.0.0",
-            "endpoints": [
-                "GET /": "Page d'accueil",
-                "GET /hello": "Message de salutation",
-                "GET /tasks": "Lister toutes les tâches",
-                "POST /tasks": "Créer une nouvelle tâche",
-                "GET /tasks/:id": "Récupérer une tâche",
-                "PUT /tasks/:id": "Modifier une tâche", 
-                "DELETE /tasks/:id": "Supprimer une tâche",
-                "GET /tasks/pending": "Tâches non terminées"
-            ]
-        ]
+    app.get { req async -> String in
+        return "🎯 Bienvenue sur l'API de gestion des tâches Vapor !"
     }
 
     /**
@@ -75,13 +62,14 @@ func routes(_ app: Application) throws {
      * Retourne l'état de santé de l'application
      * Utile pour les systèmes de monitoring
      */
-    app.get("health") { req async -> [String: Any] in
-        return [
-            "status": "healthy",
-            "timestamp": Date().timeIntervalSince1970,
-            "version": "1.0.0",
-            "database": "sqlite"
-        ]
+    app.get("health") { req async -> HealthStatus in
+        return HealthStatus(
+            status: "healthy",
+            timestamp: Date().timeIntervalSince1970,
+            service: "vapor-task-api",
+            version: "1.0.0",
+            database: "sqlite"
+        )
     }
     
     // MARK: - Enregistrement des contrôleurs
@@ -89,7 +77,7 @@ func routes(_ app: Application) throws {
     /**
      * Enregistrement du TaskController
      * 
-     * Toutes les routes liées aux tâches (/tasks/*) sont gérées
+     * Toutes les routes liées aux tâches (/tasks) sont gérées
      * par le TaskController défini dans Controllers/TaskController.swift
      */
     try app.register(collection: TaskController())
@@ -108,17 +96,8 @@ func routes(_ app: Application) throws {
      * Exemple de retour JSON simple
      * GET /demo/json
      */
-    demo.get("json") { req async -> [String: Any] in
-        return [
-            "message": "Exemple de réponse JSON",
-            "data": [
-                "key1": "valeur1",
-                "key2": "valeur2",
-                "nombre": 42,
-                "booleen": true
-            ],
-            "timestamp": Date()
-        ]
+    demo.get("json") { req async -> String in
+        return "Exemple de réponse JSON depuis Vapor"
     }
     
     /**
@@ -135,14 +114,7 @@ func routes(_ app: Application) throws {
      * Exemple de réception de données POST
      * POST /demo/echo
      */
-    demo.post("echo") { req async throws -> [String: Any] in
-        // Récupère le corps de la requête comme dictionnaire
-        let body = try req.content.decode([String: String].self)
-        
-        return [
-            "message": "Données reçues avec succès",
-            "received_data": body,
-            "timestamp": Date()
-        ]
+    demo.post("echo") { req async throws -> String in
+        return "Echo reçu avec succès à \(Date())"
     }
 }

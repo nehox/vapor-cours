@@ -11,7 +11,10 @@ import PackageDescription
 let package = Package(
     name: "TaskAPI",
     platforms: [
-       .macOS(.v13)
+       .macOS(.v12),
+       .iOS(.v15),
+       .watchOS(.v8),
+       .tvOS(.v15)
     ],
     dependencies: [
         // 💧 Vapor : Le framework web principal

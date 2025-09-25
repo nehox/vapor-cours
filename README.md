@@ -16,7 +16,51 @@ Bienvenue dans ce cours pratique sur le développement d'une API REST avec Swift
 
 ---
 
-## 🛠️ Partie 1 : Installation et configuration
+## � Dépannage rapide
+
+### Problème : Swift n'est pas installé sur Windows
+
+Si vous obtenez l'erreur `swift : Le terme «swift» n'est pas reconnu...`, voici les solutions :
+
+#### ✅ Solution 1 : Docker (Recommandée - Plus simple)
+
+```bash
+# 1. Assurez-vous que Docker Desktop est démarré
+# 2. Utilisez le script de test :
+test-docker.bat
+
+# L'API sera disponible sur http://localhost:8080
+```
+
+#### ✅ Solution 2 : Installation Swift native
+
+```bash
+# Via winget
+winget install Swift.Toolchain
+
+# Puis ajoutez au PATH système :
+# C:\Users\VOTRE-NOM\AppData\Local\Programs\Swift\Toolchains\LATEST\usr\bin
+```
+
+#### ✅ Solution 3 : Développement en ligne
+
+- Utilisez [Swift Playgrounds](https://developer.apple.com/swift-playgrounds/) 
+- Ou [Gitpod](https://gitpod.io) avec ce repository
+
+### ⚡ Démarrage rapide avec Docker
+
+```bash
+# Windows
+test-docker.bat
+
+# Linux/macOS  
+chmod +x test-docker.sh
+./test-docker.sh
+```
+
+---
+
+## �🛠️ Partie 1 : Installation et configuration
 
 ### Prérequis
 
